@@ -14,6 +14,10 @@ from keras.layers import LSTM
 from math import sqrt
 from matplotlib import pyplot
 import numpy
+import lstm
+import time
+import matplotlib.pyplot as plt
+import build_model
 
 # scale train and test data to [-1, 1]
 def scale(train, test):
@@ -111,5 +115,39 @@ def train():
 	# pyplot.plot(predictions)
 	# pyplot.show()
 
+def train_lstm():
+	global_start_time = time.time()
+	epochs  = 50
+	seq_len = 6
+
+	print('> Loading data... ')
+
+	# Load time series dataset
+	train_file = sys.argv[1]
+
+	# X_train, y_train, X_test, y_test = lstm.load_data('sp500.csv', seq_len, True)
+	X_train, y_train, X_test, y_test = data_helper.load_timeseries(train_file, seq_len, True)
+
+	print('> Data Loaded. Compiling...')
+
+	# model = lstm.build_model([1, 6, 100, 1])
+	model = build_model.rnn_lstm([1, 6, 100, 1])
+
+	model.fit(X_train, y_train, batch_size=2, nb_epoch=epochs, validation_split=0.05)
+
+	#predictions = lstm.predict_sequences_multiple(model, X_test, seq_len, 50)
+	#predicted = lstm.predict_sequence_full(model, X_test, seq_len)
+	predicted = lstm.predict_point_by_point(model, X_test)        
+
+	print(type(predicted))
+	print(predicted.shape)
+	for i in range(len(predicted)):
+		print(predicted[i], y_test[i])
+
+	print('Training duration (s) : ', time.time() - global_start_time)
+	# plot_results_multiple(predictions, y_test, 50)
+	data_helper.plot_results(predicted, y_test)
+	print('training is done')
+
 if __name__ == '__main__':
-	train()
+	train_lstm()
