@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 def load_timeseries(filename, seq_len, normalise_window):
+	"""Load time series dataset"""
+
 	series = pd.read_csv(filename, sep='\t', header=0, index_col=0, squeeze=True)
 	data = series.values
 
@@ -30,6 +32,8 @@ def load_timeseries(filename, seq_len, normalise_window):
 	return [x_train, y_train, x_test, y_test]
 
 def normalise_windows(window_data):
+	"""Normalize data"""
+
 	normalised_data = []
 	for window in window_data:
 		normalised_window = [((float(p) / float(window[0])) - 1) for p in window]
@@ -37,30 +41,11 @@ def normalise_windows(window_data):
 	return normalised_data
 
 def plot_results(predicted_data, true_data):
+	"""Plot predictions VS true data"""
+
 	fig = plt.figure(facecolor='white')
 	ax = fig.add_subplot(111)
 	ax.plot(true_data, label='True Data')
 	plt.plot(predicted_data, label='Prediction')
 	plt.legend()
 	plt.show()
-
-# create a differenced series
-def difference(dataset, interval=1):
-	diff = list()
-	for i in range(interval, len(dataset)):
-		value = dataset[i] - dataset[i - interval]
-		diff.append(value)
-	return pd.Series(diff)
-
-# invert differenced value
-def inverse_difference(history, yhat, interval=1):
-	return yhat + history[-interval]
-
-# frame a sequence as a supervised learning problem
-def timeseries_to_supervised(data, lag=1):
-	df = pd.DataFrame(data)
-	columns = [df.shift(i) for i in range(1, lag+1)]
-	columns.append(df)
-	df = pd.concat(columns, axis=1)
-	df.fillna(0, inplace=True)
-	return df
