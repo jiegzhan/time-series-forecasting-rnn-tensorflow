@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def load_timeseries(filename, seq_len, normalise_window):
 	"""Load time series dataset"""
 
-	series = pd.read_csv(filename, sep='\t', header=0, index_col=0, squeeze=True)
+	series = pd.read_csv(filename, sep=',', header=0, index_col=0, squeeze=True)
 	data = series.values
 
 	sequence_length = seq_len + 1

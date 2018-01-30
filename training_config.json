@@ -1,12 +1,12 @@
 {
 	"epochs": 20,
-    "batch_size": 2,
+	"batch_size": 2,
 	"window_size": 6,
 	"train_test_split": 0.8,
 	"validation_split": 0.1,
-    "dropout_keep_prob": 0.2,
-    "evaluate_every": 200,
-    "hidden_unit": 100,
-    "l2_reg_lambda": 0.0,
-    "max_pool_size": 4
+	"dropout_keep_prob": 0.2,
+	"evaluate_every": 200,
+	"hidden_unit": 100,
+	"l2_reg_lambda": 0.0,
+	"max_pool_size": 4
 }
