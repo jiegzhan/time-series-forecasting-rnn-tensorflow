@@ -4,6 +4,7 @@ import build_model
 import data_helper
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 def train_predict():
 	"""Train and predict time series data"""
@@ -16,7 +17,8 @@ def train_predict():
 	params = json.loads(open(parameter_file).read())
 
 	# Load time series dataset, and split it into train and test
-	x_train, y_train, x_test, y_test, x_test_raw, y_test_raw, last_window_raw, last_window = data_helper.load_timeseries(train_file, params['window_size'])
+	x_train, y_train, x_test, y_test, x_test_raw, y_test_raw,\
+		last_window_raw, last_window = data_helper.load_timeseries(train_file, params)
 
 	# Build RNN (LSTM) model
 	lstm_layer = [1, params['window_size'], params['hidden_unit'], 1]
@@ -32,31 +34,20 @@ def train_predict():
 
 	# Predict next time stamp 
 	predicted = build_model.predict_next_timestamp(model, x_test)        
-
-	for i in range(len(predicted)):
-		print(predicted[i], y_test[i])
-
-	print('raw')
 	predicted_raw = []
 	for i in range(len(x_test_raw)):
 		predicted_raw.append((predicted[i] + 1) * x_test_raw[i][0])
-		print(x_test_raw[i], y_test_raw[i])
 
-	data_helper.plot_results(predicted, y_test, predicted_raw, y_test_raw)
-	print('training is done')
-
-	print('last')
-	print(type(x_test))
-	print(x_test[0])
-	print(type(last_window))
-	print(last_window)
-	print(last_window_raw)
+	# Plot graph: predicted VS actual
+	plt.subplot(111)
+	plt.plot(predicted_raw, label='Actual')
+	plt.plot(y_test_raw, label='Predicted')	
+	plt.legend()
+	plt.show()
 
 	next_timestamp = build_model.predict_next_timestamp(model, last_window)
-	print(next_timestamp)
-	print(type(next_timestamp))
 	next_timestamp_raw = (next_timestamp[0] + 1) * last_window_raw[0][0]
-	print(next_timestamp_raw)
+	print('The next time stamp forecasting is: {}'.format(next_timestamp_raw))
 
 if __name__ == '__main__':
 	# python3 train_predict.py ./data/sales.csv ./training_config.json_

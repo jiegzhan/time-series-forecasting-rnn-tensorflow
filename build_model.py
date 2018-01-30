@@ -7,27 +7,14 @@ def rnn_lstm(layers, params):
 	"""Build RNN (LSTM) model on top of Keras and Tensorflow"""
 
 	model = Sequential()
-
-	model.add(LSTM(
-		input_shape=(layers[1], layers[0]),
-		output_dim=layers[1],
-		return_sequences=True))
-
+	model.add(LSTM(input_shape=(layers[1], layers[0]), output_dim=layers[1], return_sequences=True))
 	model.add(Dropout(params['dropout_keep_prob']))
-
-	model.add(LSTM(
-		layers[2],
-		return_sequences=False))
-
+	model.add(LSTM(layers[2], return_sequences=False))
 	model.add(Dropout(params['dropout_keep_prob']))
-
-	model.add(Dense(
-		output_dim=layers[3]))
-
+	model.add(Dense(output_dim=layers[3]))
 	model.add(Activation("linear"))
 
 	model.compile(loss="mse", optimizer="rmsprop")
-
 	return model
 
 def predict_next_timestamp(model, history):
