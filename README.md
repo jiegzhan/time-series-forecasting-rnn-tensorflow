@@ -4,6 +4,8 @@
 - This module was built with **Recurrent Neural Network (RNN)** on top of **[Tensorflow](https://github.com/tensorflow/tensorflow)** and **[Keras](https://github.com/keras-team/keras)**.
 
 ### Why apply RNN (LSTM) on time series datasets?
+> The expression long short-term refers to the fact that LSTM is a model for the **short-term memory which can last for a long period of time**. An LSTM is well-suited to classify, process and **predict time series given time lags of unknown size and duration between important events**.
+- [Long short-term memory](https://en.wikipedia.org/wiki/Long_short-term_memory)
 
 > Recurrent neural networks are a type of neural network that **add the explicit handling of order in input observations**.
 
