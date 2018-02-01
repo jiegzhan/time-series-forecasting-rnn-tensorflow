@@ -12,9 +12,9 @@ def rnn_lstm(layers, params):
 	model.add(LSTM(layers[2], return_sequences=False))
 	model.add(Dropout(params['dropout_keep_prob']))
 	model.add(Dense(output_dim=layers[3]))
-	model.add(Activation("linear"))
+	model.add(Activation("tanh"))
 
-	model.compile(loss="mse", optimizer="rmsprop")
+	model.compile(loss="mean_squared_error", optimizer="rmsprop")
 	return model
 
 def predict_next_timestamp(model, history):
