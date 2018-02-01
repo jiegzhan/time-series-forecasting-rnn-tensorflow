@@ -24,7 +24,7 @@ def train_predict():
 	lstm_layer = [1, params['window_size'], params['hidden_unit'], 1]
 	model = build_model.rnn_lstm(lstm_layer, params)
 
-	# Train RNN (LSTM) model with time series train set
+	# Train RNN (LSTM) model with train set
 	model.fit(
 		x_train,
 		y_train,
@@ -32,7 +32,7 @@ def train_predict():
 		epochs=params['epochs'],
 		validation_split=params['validation_split'])
 
-	# Predict next time stamp 
+	# Check the model against test set
 	predicted = build_model.predict_next_timestamp(model, x_test)        
 	predicted_raw = []
 	for i in range(len(x_test_raw)):
@@ -45,6 +45,7 @@ def train_predict():
 	plt.legend()
 	plt.show()
 
+	# Predict next time stamp 
 	next_timestamp = build_model.predict_next_timestamp(model, last_window)
 	next_timestamp_raw = (next_timestamp[0] + 1) * last_window_raw[0][0]
 	print('The next time stamp forecasting is: {}'.format(next_timestamp_raw))
