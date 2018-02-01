@@ -3,7 +3,7 @@
 - The purpose of this project is to **Forecast next timestamp** given a sequence of history values.
 - This module was built with **Recurrent Neural Network (RNN)** on top of **[Tensorflow](https://github.com/tensorflow/tensorflow)** and **[Keras](https://github.com/keras-team/keras)**.
 
-### Why apply RNN (LSTM) for time series datasets?
+### Why apply RNN (LSTM) on time series datasets?
 
 > Recurrent neural networks are a type of neural network that **add the explicit handling of order in input observations**.
 
